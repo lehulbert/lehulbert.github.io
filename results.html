@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Product Review</title>
+    <meta name="description" content=" 6242 ">
+    <meta name="author" content ="Unapologetics">
+    <link rel="stylesheet" type ="text/css" href="static/d3-slider/d3.slider.css" media="screen" />
+    <link rel="stylesheet" type ="text/css" href="static/graph.css">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3-colors-highway.css">
+    <script src= "https://d3js.org/d3.v3.min.js"></script>
+    <script src= "static/d3plus.v1.9.8/js/d3plus.js" ></script>
+    <script src= "static/d3-slider/d3.slider.js"></script>
+    <script src= "static/graph.js"></script>
+
+</head>
+
+<style>
+html,body,h1,h2,h3,h5 {font-family: "Raleway", sans-serif; color: #00477e;}
+h1 {
+
+    font-weight: bolder;
+  text-align: center;
+  margin: 0 auto;
+  padding-top: 15px;
+  padding-bottom: 30px;
+}
+h2 {
+    color: #00477e;
+  text-align: center;
+  margin: 0 auto;
+  font-weight: bold;
+}
+</style>
+
+
+<body onload = buildGraph(links)>
+    <div id="mheader">
+        <div>
+            <h1 style = "font-size: 50px;"> True Review  </h1>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+	<div class="w3-row-padding w3-margin-bottom">
+        <div class="w3-rest"style = "padding-left: 8px;padding-right:8px;padding-top:8px">
+          <div class="w3-container w3-highway-blue w3-padding-16">
+            <div class="w3-left"><i class="fa fa-id-card-o w3-xxxlarge"></i></div>
+            <div class="w3-middle">
+              <h2 style="color:white;font-size: 35px;"><b>
+                    <a id="Name" >Sony Bravia XBR-Series KDL-46XBR2 46-Inch 1080p LCD HDTV</a>
+              </h2></b>
+            </div>
+            <div class="w3-clear"></div>
+            <h4>Product Name</h4>
+          </div>
+        </div>
+	</div>
+    <div class="w3-row-padding w3-margin-bottom">
+        <div class="w3-third">
+          <div class="w3-container w3-highway-blue  w3-padding-16">
+            <div class="w3-left"><i class="fa fa-minus-circle w3-xxxlarge"></i></div>
+            <div class="w3-right">
+               <h2 style="color:white;font-size: 40px;"><b>
+                    <a id="OldScore" >4.11</a>
+              </h2></b>
+            </div>
+            <div class="w3-clear"></div>
+            <h4>Old Score</h4>
+          </div>
+        </div>
+        <div class="w3-third">
+          <div class="w3-container w3-highway-blue  w3-padding-16">
+            <div class="w3-left"><i class="fa fa-check-circle w3-xxxlarge"></i></div>
+            <div class="w3-right">
+               <h2 style="color:white;font-size: 40px;"><b>
+                    <a id="NewScore" >4.66</a>
+              </h2></b>
+            </div>
+            <div class="w3-clear"></div>
+            <h4>New Score</h4>
+          </div>
+        </div>
+        <div class="w3-third">
+          <div class="w3-container w3-highway-blue  w3-text-white w3-padding-16">
+            <div class="w3-left"><i class="fa fa-percent w3-xxxlarge"></i></div>
+            <div class="w3-right">
+              <h2  style="color:white;font-size: 40px;"><b>
+                    <a id="Change" >13.3%</a>
+              </h2></b>
+            </div>
+            <div class="w3-clear"></div>
+            <h4>Percent Change</h4>
+          </div>
+        </div>
+    </div>
+
+    <!-- <button id="runbtn" class="button" style="top:10px; left:450px" onclick="buildGraph()">Generate</button> -->
+    <div id="boxer">
+      <div  class="left" style="width:50%; height:700px;">
+         <div class="w3-row-padding ">
+         <h2> Graphical Visualization</h2>
+           <h4>Visualization of all reviews written for a product. Use the buttons to filter the network. This displays either...
+ <br> - the distribution of negative vs. positive quality ratings for that product or,
+ <br> - the balance of written reviews with negative vs. positive sentiments. </h4>
+         </div>
+
+        <div class="w3-row-padding" style="">
+          <button id="filternr" class="button" style="top:10px; left:450px" onclick="filterPos(0.1, 'red', 'o.overall <1.0')"> negative Rating</button>
+          <button id="filterpr" class="button" style="top:10px; left:450px" onclick="filterPos(0.1, 'blue', 'o.overall >1.0')"> Positive Rating</button>
+          <button id="filterns" class="button" style="top:10px; left:450px" onclick="filterPos(0.1, 'orange', 'o.sentiment <0')"> Negative Sentiment</button>
+          <button id="filterps" class="button" style="top:10px; left:450px" onclick="filterPos(0.1, 'purple', 'o.sentiment >0.0')"> Positive Sentiment</button>
+        </div>
+        <div class="w3-row-padding w3-margin-bottom">
+          <button id="filterall" class="long_button" style="top:10px; left:450px" onclick="allColor('blue', 'red', 'o.overall <1.0')">Rating</button>
+          <button id="filterps" class="long_button" style="top:10px; left:450px" onclick="allColor('orange', 'purple', 'o.sentiment <0.0')">Sentiment</button>
+        </div>
+        <div class = margin>
+        </div>
+        <div id="chart1" class="left" style="display: block ;margin: auto;height:500px;">
+        </div>
+      </div>
+      <div class="right"  style="width:50%; height:700px;">
+
+        <div id="chart2"  style=" height:500px;">
+          <div class="w3-row-padding ">
+             <h2> TF-IDF chart</h2>
+             <h4>The larger a word's bubble, the more frequently that word is used to describe this product, but also the more unique the word is to just reviews of this product.</h4>
+             <h4 style = "font-size: 18px">Details: Bubble size is proportional to tf-idf score. <br>Corpus: all reviews.<br> Documents: all reviews for 1 product. </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+<br>
+
+ <div class="wrapper" style = "padding-top: 70px">
+
+
+    <h2 style = "padding-bottom: 0px; padding-top:50px;">Sentiment Slider</h2>
+
+    <h4> Display only the reviews with "sentiment strengths" (polarity score) within 0.05 units of the slider's position. Sentiment strengths were calculated using SVM.</h4>
+
+    <h3 style ="font-weight:bolder;">Sentiment strength: <span id="slider4text">0.8</span></h3>
+  <div id="slider4"></div>
+  <div style = "text-align: center; font-size: 15px">
+  <b>
+  <span style = "float: right;font-size: 15px">Positive</span>
+  <span style = "float: left;font-size: 15px">Negative</span>​
+  <span> Neutral </span></b>
+  </div>
+  <div id="container" align="left" ></div>
+
+  </div>
+
+</body>
+<script>
+links = [
+{
+  "reviewerID": "Ashok Prahlad",
+  "asin": "Product",
+  "overall": 1.2,
+  "sentiment":-0.5,
+  "tfidf":100
+},
+{
+  "reviewerID": "Blu Ray Man blu-ray is the only way",
+  "asin": "Product",
+  "overall": 4.3,
+  "sentiment":0.5,
+  "tfidf":188
+
+},
+{
+  "reviewerID": "Daryl Gates",
+  "asin": "Product",
+  "overall": 5.2,
+  "sentiment":0.5,
+  "tfidf":99
+},
+{
+  "reviewerID": "Epsilon Delta",
+  "asin": "Product",
+  "overall": 0.5,
+  "sentiment":0.5,
+  "tfidf":11
+},
+{
+  "reviewerID": "F.Lai",
+  "asin": "Product",
+  "overall": 1.6,
+  "sentiment":-0.5,
+  "tfidf":34
+},
+{
+  "reviewerID": "J. Mageean",
+  "asin": "Product",
+  "overall": 0.4,
+  "sentiment":-0.5,
+  "tfidf":45
+},
+{
+  "reviewerID": "kel",
+  "asin": "Product",
+  "overall": 0.6,
+  "sentiment":-0.5,
+  "tfidf":56
+},
+{
+  "reviewerID": "Kimo",
+  "asin": "Product",
+  "overall": 3.7,
+  "sentiment":0.5,
+  "tfidf":77
+},
+{
+  "reviewerID": "L. Romero Luis from SD",
+  "asin": "Product",
+  "overall": 2.8,
+  "sentiment":-0.5,
+  "tfidf":22
+},
+{
+  "reviewerID": "L. Topper",
+  "asin": "Product",
+  "overall": 1.8,
+  "sentiment":-0.5,
+  "tfidf":36
+},
+{
+  "reviewerID": "My Opinion",
+  "asin": "Product",
+  "overall": 5.7,
+  "sentiment":0.5,
+  "tfidf":44
+},
+{
+  "reviewerID": "Pasha Supreme",
+  "asin": "Product",
+  "overall": 2.5,
+  "sentiment":0.5,
+  "tfidf":77
+},
+{
+  "reviewerID": "Paul PJ",
+  "asin": "Product",
+  "overall": 1.9,
+  "sentiment":-0.5,
+  "tfidf":66
+},
+{
+  "reviewerID": "Porfie Medina Porfie Jr. Medina",
+  "asin": "Product",
+  "overall": 5.1,
+  "sentiment":0.5,
+  "tfidf":18
+},
+{
+  "reviewerID": "scottls1",
+  "asin": "Product",
+  "overall": 0.3,
+  "sentiment":-0.5,
+  "tfidf":10
+},
+{
+  "reviewerID": "Travis Dockweiler",
+  "asin": "Product",
+  "overall": 2.5,
+  "sentiment":-0.5,
+  "tfidf":10
+},
+{
+  "reviewerID": "Travis Dockweiler",
+  "asin": "Product",
+  "overall": 2.5,
+  "sentiment":-0.5,
+  "tfidf":10
+},
+{
+  "reviewerID": "Travis Dockweiler",
+  "asin": "Product",
+  "overall": 2.5,
+  "sentiment":-0.5,
+  "tfidf":10
+},
+{
+  "reviewerID": "Travis Dockweiler",
+  "asin": "Product",
+  "overall": 2.5,
+  "sentiment":-0.5,
+  "tfidf":10
+}
+];
+
+words =[
+{product: "Product", word: "tv", tfidf: 0.445749180949545},
+{product: "Product", word: "sony", tfidf: 0.29332008882181587},
+{product: "Product", word: "picture", tfidf: 0.1937105372673936},
+{product: "Product", word: "xbr2", tfidf: 0.15004985096898296},
+{product: "Product", word: "inputs", tfidf: 0.13441754885421103},
+{product: "Product", word: "lcd", tfidf: 0.12820647915122182},
+{product: "Product", word: "color", tfidf: 0.10776782379807578},
+{product: "Product", word: "bravia", tfidf: 0.10729945339064954},
+{product: "Product", word: "video", tfidf: 0.1022232190922246},
+{product: "Product", word: "clouds", tfidf: 0.10072584555725188},
+{product: "Product", word: "screen", tfidf: 0.09867019687894792},
+{product: "Product", word: "channels", tfidf: 0.09865571893017959},
+{product: "Product", word: "hdmi", tfidf: 0.09737177164095585},
+{product: "Product", word: "digital", tfidf: 0.09697158263598332},
+{product: "Product", word: "dvd", tfidf: 0.09633066572287141},
+{product: "Product", word: "cable", tfidf: 0.09443825345030711},
+{product: "Product", word: "1080p", tfidf: 0.09267097470587533},
+{product: "Product", word: "46", tfidf: 0.09064593582175666},
+{product: "Product", word: "xbr3", tfidf: 0.08961451623199959},
+{product: "Product", word: "panel", tfidf: 0.08775706735966751}
+];
+
+</script>
+</html>
+
+
